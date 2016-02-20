@@ -1,0 +1,20 @@
+{
+  "name": "Application covoiturage",
+  "description": "a Sails and Angular application",
+  "main": "app.js",
+  "authors": [
+    "Safaa & Zakariae"
+  ],
+  "license": "MIT",
+  "moduleType": [
+    "yui"
+  ],
+  "homepage": "/homepage",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

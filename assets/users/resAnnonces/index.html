@@ -1,0 +1,106 @@
+
+<div>
+  <form class="form-inline signup col-lg-offset-3" role="form">
+    <div class="form-group">
+      <label>Filtrer par ville départ :</label>
+      <div class="input-group">
+
+        <select class="form-control" name="dep" ng-model="search.villeDepart" placeholder="fzefezfzefefez">
+          <option ng-repeat="ville1 in villes" ng-value="ville1.nomVille">{{ ville1.nomVille }}</option>
+        </select>
+        <span class="input-group-addon"><span class="fa fa-level-down"></span></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Filtrer par ville arrivée :</label>
+      <div class="input-group">
+
+        <select class="form-control" name="arr" ng-model="search.villeArrivee" placeholder="fzefezfzefefez">
+          <option ng-repeat="ville2 in villes" ng-value="ville2.nomVille">{{ ville2.nomVille }}</option>
+        </select>
+        <span class="input-group-addon"><span class="fa fa-level-up"></span></span>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Filtrer par prix  :</label>
+      <div class="input-group">
+        <input type="number"  class="form-control" ng-model="search.prixParPersonne"/>
+        <span class="input-group-addon"><span class="fa fa-money"></span></span>
+      </div>
+      <!--<div class="dropdown">
+        <a class="dropdown-toggle" id="dropdown2" role="button" data-toggle="dropdown" data-target="#" href="#">
+          <div class="input-group"><input type="text" class="form-control"
+                                          data-ng-model="data.dateDropDownInput"><span class="input-group-addon"><i
+                class="glyphicon glyphicon-calendar"></i></span>
+          </div>
+        </a>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+          <datetimepicker data-ng-model="data.dateDropDownInput"
+                          data-datetimepicker-config="{ dropdownSelector: '#dropdown2' }"/>
+        </ul>
+      </div>-->
+    </div>
+  </form>
+
+</div>
+<br/>
+
+
+
+<div ng-repeat="annonce in annonces | filter: search">
+  <div ng-if="annonce.ownerUs.id != Model.id && annonce.nbrePlace > 0">
+    <div class="col-md-8 col-lg-offset-2">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+
+          <div style="font-style: oblique; color: rgba(200, 42, 38, 0.93); font-size: x-large; font-family: cambria"> {{annonce.nbrePlace}} place(s) restante(s)
+            &nbsp;&nbsp;
+            <button class="btn btn-info btn-rounded col-lg-offset-8" data-toggle="collapse" data-target="#{{annonce.id}}"><span
+              class="glyphicon glyphicon-heart"></span>Réserver</button></div>
+          <div id="{{annonce.id}}" class="collapse">
+            <div>
+              <label>Nombre de places à réserver : </label>&nbsp;&nbsp;
+              <input class="input-mini" style="width: 10%; border: 100px" type="number"  ng-model="res.text" ng-blur="getVal(res)" max="{{annonce.nbrePlace}}" min="1"/>&nbsp;&nbsp;Prix Total : {{annonce.prixParPersonne * res.text}} MAD&nbsp;&nbsp;
+              <input type="hidden" ng-model="idAnnonce" id="idAn" value="{{annonce.id}}"/>
+              <input type="hidden" ng-model="idUser" ng-init="idUser = Model.id" id="idUs" value="{{Model.id}}"/>
+              <button class="btn" data="{{annonce}}" ng-click="book(annonce)">Confirmer</button></div>
+          </div>
+
+        </div>
+        <div class="panel-body">
+          <table class="table table-hover">
+            <thead>
+            <tr>
+              <th>Date Départ</th>
+              <th>Date Arrivée prévue</th>
+              <th>Ville départ</th>
+              <th>Ville arrivée</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+              <td><h4>{{annonce.dateDepart | date:'dd-mm-yyyy à HH:mm'}}</h4></td>
+              <td><h4>{{annonce.dateArriveePrevue | date:'dd-MM-yyyy à HH:mm'}}</h4></td>
+              <td><h4>{{annonce.villeDepart}}</h4></td>
+              <td><h4>{{annonce.villeArrivee}}</h4></td>
+            </tr></tbody></table>
+          <div col-md-5>
+
+            <div class="col-lg-offset-11 ">
+              <!--<p class="circle"><span>{{annonce.prixParPersonne}} MAD</span></p>-->
+              <ul class="pagination pagination-sm pull-right">
+
+                <li><a href="#"><h5 style="font-style: oblique; font-family: cambria; font-size: x-large"><center>{{annonce.prixParPersonne}} MAD</center></h5></a></li>
+                </ul>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+

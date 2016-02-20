@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Application covoiturage</title>
+
+    <!-- Viewport mobile tag for sensible mobile support -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+    <link rel="stylesheet" href="/styles/angular-toastr.css">
+    <link rel="stylesheet" href="/styles/bootstrap.css">
+    <link rel="stylesheet" href="/styles/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+
+    <!--Added this so the client has access to the csrf tag and it's grabbed first service side on every page -->
+    <script type="text/javascript">
+    window.SAILS_LOCALS = { _csrf: "<%= _csrf %>" };
+    </script>
+    <script src="/js/dependencies/jquery.js"></script>
+
+
+  </head>
+
+  <body ng-app="SignupModule" ng-controller="SignupController" ng-cloak>
+    <div class="container-fluid">
+
+      <!-- Creates the navbar -->
+        <nav class="navbar navbar-default navbar-inverse">
+
+          <!-- This creates the mechanism for the collapse button -->
+          <button type="button" class="navbar-toggle" data-toggle="collapse" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed">
+
+            <!-- This controls the number of lines in the image when the nav collapse -->
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+
+          <!-- This is the brand on the left-hand side. -->
+          <a class="navbar-brand" href="/#"> Application covoiturage</a>
+          <div class="collapse navbar-collapse" ng-class="!navCollapsed && 'in'">
+            <div class="navbar-form navbar-right">
+
+              <div class="form-group">
+                <span class="glyphicon glyphicon-log-in" style="color: white;"></span>&nbsp;&nbsp;<a style="color: white" href="login">Se
+                  connecter</a>&nbsp;&nbsp;&nbsp;&nbsp;
+
+              </div>
+
+              <div class="form-group">
+                <span class="glyphicon glyphicon-edit" style="color: white"></span> <a style="color: white" href="signup">S'inscrire</a>
+              </div>
+
+            </div>
+          </div>
+        </nav>
+      </div>
+    </div>
+
+    <!-- SIGNUP FORM -->
+    <form ng-submit="submitSignupForm()" id="sign-up-form" class="form-signin" name="signup">
+      <fieldset class="row fieldset">
+        <legend>
+      <h2 class="form-signin-heading">Formulaire d'inscrption </h2></legend>
+
+        <!-- N O M   C O M P L E T -->
+
+        <!-- checking whether the form "signup" with the "name" property is both $invalid AND $dirty.  If it is
+        insert the "has-error" class on the input field (i.e. insert a red border around the input field)
+        -->
+        <div class="control-group form-group col-md-12"
+        ng-class="{'has-error':signup.name.$invalid &&
+                              signup.name.$dirty}">
+          <label>Nom complet</label>
+
+          <!-- For this input field make it required, and have a max length of 25 -->
+          <input type="text" class="form-control" placeholder="nom & prenom" name="name" ng-model="signupForm.nomUser" ng-maxlength="50" required>
+
+          <!-- Also, if signup.name.$dirty is true, show the message depending upon the particular properties truthiness (e.g. required
+          and/or maxlength) -->
+          <span class="help-block has-error" ng-if="signup.name.$dirty">
+            <span ng-show="signup.name.$error.required">Le nom est obligatoir.</span>
+            <span ng-show="signup.name.$error.maxlength">maximun 50.</span>
+          </span>
+        </div>
+
+        <!-- A D R E S S E -->
+
+        <!-- checking whether the form "signup" with the "name" property is both $invalid AND $dirty.  If it is
+        insert the "has-error" class on the input field (i.e. insert a red border around the input field)
+        -->
+        <div class="control-group form-group col-md-12"
+             ng-class="{'has-error':signup.add.$invalid &&
+                              signup.add.$dirty}">
+          <label>Adresse</label>
+
+          <!-- For this input field make it required, and have a max length of 25 -->
+          <input type="text" class="form-control" placeholder="adresse" name="add" ng-model="signupForm.adresseUser" ng-maxlength="50" required>
+
+          <!-- Also, if signup.name.$dirty is true, show the message depending upon the particular properties truthiness (e.g. required
+          and/or maxlength) -->
+          <span class="help-block has-error" ng-if="signup.add.$dirty">
+            <span ng-show="signup.add.$error.required">L'adresse est obligatoire.</span>
+            <span ng-show="signup.add.$error.maxlength">maximun 50.</span>
+          </span>
+        </div>
+
+        <!-- A G E -->
+
+        <!-- checking whether the form "signup" with the "name" property is both $invalid AND $dirty.  If it is
+        insert the "has-error" class on the input field (i.e. insert a red border around the input field)
+        -->
+        <div class="control-group form-group col-md-12"
+             ng-class="{'has-error':signup.age.$invalid &&
+                              signup.age.$dirty}">
+          <label>Age</label>
+
+          <!-- For this input field make it required, and have a max length of 25 -->
+          <input type="number" class="form-control" placeholder="Age" name="age" ng-model="signupForm.ageUser" ng-maxlength="3" required>
+
+          <!-- Also, if signup.name.$dirty is true, show the message depending upon the particular properties truthiness (e.g. required
+          and/or maxlength) -->
+          <span class="help-block has-error" ng-if="signup.age.$dirty">
+            <span ng-show="signup.age.$error.required">L'age est obligatoir.</span>
+            <span ng-show="signup.age.$error.maxlength">maximun 3.</span>
+          </span>
+        </div>
+
+        <!-- C I N -->
+
+        <!-- checking whether the form "signup" with the "name" property is both $invalid AND $dirty.  If it is
+        insert the "has-error" class on the input field (i.e. insert a red border around the input field)
+        -->
+        <div class="control-group form-group col-md-12"
+             ng-class="{'has-error':signup.cin.$invalid &&
+                              signup.cin.$dirty}">
+          <label>CIN </label>
+
+          <!-- For this input field make it required, and have a max length of 25 -->
+          <input type="text" class="form-control" placeholder="code carte national" name="cin" ng-model="signupForm.cinUser" ng-maxlength="10" required>
+
+          <!-- Also, if signup.name.$dirty is true, show the message depending upon the particular properties truthiness (e.g. required
+          and/or maxlength) -->
+          <span class="help-block has-error" ng-if="signup.cin.$dirty">
+            <span ng-show="signup.cin.$error.required">Le code est obligatoire.</span>
+            <span ng-show="signup.cin.$error.maxlength">maximun 10.</span>
+          </span>
+        </div>
+
+        <!-- T E L E P H O N E  -->
+
+        <div class="control-group form-group col-md-12"
+          ng-class="{'has-error':signup.tel.$invalid &&
+                                signup.tel.$dirty}">
+          <label>Téléphone</label>
+          <input type="text" class="form-control" placeholder="ex : 0123456789" name="tel" ng-model="signupForm.telUser" ng-maxlength="10" required>
+          <span class="help-block has-error" ng-if="signup.tel.$dirty">
+            <span ng-show="signup.tel.$error.required">ce champs est obligatoire</span>
+            <span ng-show="signup.tel.$error.maxlength">maximum 10 !.</span>
+          </span>
+        </div>
+
+        <!-- E M A I L -->
+
+        <div class="control-group form-group col-md-12"
+        ng-class="{'has-error':signup.email.$invalid &&
+                              signup.email.$dirty}">
+          <label>Adresse email</label>
+          <input type="email" class="form-control" placeholder="test@exemple.com" name="email" ng-model="signupForm.emailUser" required >
+          <span class="help-block has-error" ng-if="signup.email.$dirty">
+            <span ng-show="signup.email.$error.required">adresse email obligatoire!.</span>
+            <span ng-show="signup.email.$error.email">adresse mail non valide o_O!.</span>
+          </span>
+        </div>
+
+        <!-- P A S S W O R D -->
+
+        <div class="control-group form-group col-md-6"
+        ng-class="{'has-error':signup.password.$invalid &&
+                              signup.password.$dirty}">
+          <label>Mot de passe</label>
+          <!-- Added the compareTo directive that compares the passowrds -->
+          <input type="password" class="form-control" placeholder="minimum 6" name="password" ng-model="signupForm.password" id="password" required ng-minlength="6" compare-to="signupForm.confirmPassword" >
+          <span class="help-block has-error" ng-if="signup.password.$dirty">
+            <span ng-show="signup.password.$error.required">Mot de passe obligatoire !.</span>
+            <span ng-show="signup.password.$error.minlength">minimum 6 !.</span>
+          </span>
+        </div>
+
+        <!-- C O N F I R M  P A S S W O R D -->
+
+        <div class="control-group form-group col-md-6">
+          <label>Confirmation</label>
+          <input type="password" class="form-control" placeholder="Encore une fois" name="confirmation" ng-model="signupForm.confirmPassword" required>
+          <span class="help-block has-error" ng-if="signup.confirmation.$dirty">
+            <span ng-show="signup.password.$error.compareTo">Cela ne correspond pas !</span>
+            <span ng-show="signup.confirmation.$error.required">& Confirmation obligatoire .</span>
+          </span>
+        </div>
+      </div>
+
+      <br/>
+
+      <!-- Disable signup button until the form has no errors -->
+      <button class="btn btn-success btn-lg btn-block" type="submit" ng-disabled="signup.$invalid">
+        <span ng-show="!signupForm.loading">Créer un compte</span>
+        <span class="overlord-loading-spinner fa fa-spinner" ng-show="signupForm.loading" ></span>
+        <span ng-show="signupForm.loading">En cours de préparation...</span>
+      </button>
+
+      <input type="hidden" name="_csrf" value="<%= _csrf %>" />
+        </fieldset>
+    </form>
+
+
+
+    <div class="container">
+        <hr>
+
+    </div>
+
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/dependencies/angular.1.3.js"></script>
+    <script src="/js/dependencies/angular-toastr.js"></script>
+    <script src="/js/dependencies/bootstrap.min.js"></script>
+    <script src="/js/dependencies/compareTo.module.js"></script>
+
+    <script src="/js/public/signup/SignupModule.js"></script>
+    <script src="/js/public/homepage/HomepageModule.js"></script>
+    <script src="/js/private/admin/AdminModule.js"></script>
+    <script src="/js/private/admin/AdminController.js"></script>
+    <script src="/js/private/dashboard/DashboardModule.js"></script>
+    <script src="/js/private/dashboard/DashboardController.js"></script>
+    <script src="/js/public/homepage/HomepageController.js"></script>
+    <script src="/js/public/signup/SignupController.js"></script>
+
+  </body>
+</html>
+

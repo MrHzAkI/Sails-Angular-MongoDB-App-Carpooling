@@ -1,0 +1,203 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+
+  <title></title>
+
+</head>
+<body>
+&nbsp;&nbsp;&nbsp;&nbsp;
+<button type="button" class="btn btn-info btn-rounded  col-lg-offset-2" data-toggle="modal" data-target="#myModal"
+        data-donnee="{{Model.id}}"><i class="fa fa-plus "></i> Publier annonce
+</button>
+<br/><br/>
+
+
+<div ng-repeat="annonce in annonces">
+  <div ng-if="annonce.ownerUs.id == Model.id">
+    <div class="col-md-8 col-lg-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div style="font-style: oblique; color: #086e66; font-size: x-large; font-family: cambria"> Nombre total des place(s) restante(s) : {{annonce.nbrePlace}}
+            &nbsp;&nbsp;
+          <button class="btn btn-info btn-rounded col-lg-offset-6"><span class="fa fa-edit"></span></button>
+          <button class="btn btn-danger btn-rounded col-lg-offset-0" ng-click="delete(annonce)"><span
+            class="fa fa-trash-o"></span></button></div>
+
+
+        </div>
+        <div class="panel-body">
+          <div col-md-5>
+            <table class="table table-hover">
+              <thead>
+              <tr>
+                <th>Date Départ</th>
+                <th>Date Arrivée prévue</th>
+                <th>Ville départ</th>
+                <th>Ville arrivée</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr>
+                <td><h4>{{annonce.dateDepart | date:'dd-mm-yyyy à HH:mm'}}</h4></td>
+                <td><h4>{{annonce.dateArriveePrevue | date:'dd-MM-yyyy à HH:mm'}}</h4></td>
+                <td><h4>{{annonce.villeDepart}}</h4></td>
+                <td><h4>{{annonce.villeArrivee}}</h4></td>
+              </tr></tbody></table>
+
+            <div class="col-lg-offset-11 ">
+              <ul class="pagination pagination-sm pull-right">
+
+                <li><a href="#"><h5 style="font-style: oblique; font-family: cambria; font-size: x-large"><center>{{annonce.prixParPersonne}} MAD</center></h5></a></li>
+              </ul>
+            </div>
+			<br><br>
+            <button class="btn btn-default btn-rounded col-lg-offset-0" data-toggle="collapse" data-target="#{{annonce.id}}"><span
+              class="fa fa-arrow-down"></span>Informations concernant les réservations</button></div>
+          <div id="{{annonce.id}}" class="collapse">
+            <div ng-repeat="res in annonce.reservations">
+              <div class="panel panel">
+                <div class="panel-body">
+                  <div col-md-5>
+                    <table class="table table-hover">
+                      <thead>
+                      <tr>
+                        <th>Identifiant du réservant</th>
+                        <th>Date Réservation</th>
+                        <th>Nombre de places réservées</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr>
+                        <td><h4>{{res.ownerUsRes}}</h4></td>
+                        <td><h4>{{res.dateReservation | date:'dd-mm-yyyy à HH:mm'}}</h4></td>
+                        <td><h4>{{res.nbrePlaceRes}} place(s)</h4></td>
+                      </tr></tbody></table>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!--modal pour ajouter l'annonce-->
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form ng-submit="addAnnonce()" id="annonce" class="form-annonce" name="annonce">
+
+          <div class="form-group"><input type="hidden" class="form-control" ng-model="idU" id="idU"
+                                         placeholder="Identifier"/></div>
+          <div class="form-group" ng-class="{'has-error':annonce.dep.$invalid &&annonce.dep.$dirty}">
+            <label class="control-label">Ville Départ : </label>
+
+            <select class="form-control" name="dep" required ng-model="annonce.villeDep">
+              <option>----- Sélectionner ville départ -----</option>
+              <option ng-repeat="ville1 in villes" ng-value="ville1.nomVille">{{ ville1.nomVille }}</option>
+
+            </select>
+        <span class="help-block has-error" ng-if="annonce.dep.$dirty">
+            <span ng-show="annonce.dep.$error.required">ville depart est obligatoire.</span>
+            <span ng-show="annonce.dep.$error.maxlength">maximun 50.</span>
+          </span>
+          </div>
+
+
+          <div class="form-group" ng-class="{'has-error':annonce.arr.$invalid &&annonce.arr.$dirty}">
+            <label class="control-label">Ville Arrivée : </label>
+
+            <select class="form-control" name="arr" ng-model="annonce.villeArr">
+              <option ng-repeat="ville2 in villes" ng-value="ville2.nomVille">{{ ville2.nomVille }}</option>
+
+            </select>
+
+          <span class="help-block has-error" ng-if="annonce.arr.$dirty">
+            <span ng-show="annonce.arr.$error.required">L'adresse est obligatoire.</span>
+            <span ng-show="annonce.arr.$error.maxlength">maximun 50.</span>
+          </span>
+          </div>
+
+          <div class="form-group" ng-class="{'has-error':annonce.dat.$invalid &&annonce.dat.$dirty}">
+            <label class="control-label">Date & heure Départ : </label>
+            <input type="datetime-local" ng-model="annonce.dateDepart"  class="form-control" name="add"/>
+          <span class="help-block has-error" ng-if="annonce.dat.$dirty">
+            <span ng-show="annonce.dat.$error.required">L'adresse est obligatoire.</span>
+            <span ng-show="annonce.dat.$error.maxlength">maximun 50.</span>
+          </span>
+          </div>
+
+
+          <div class="form-group" ng-class="{'has-error':annonce.datpr.$invalid &&annonce.datpr.$dirty}">
+            <label class="control-label">Date & heure Arrivée prévue : </label>
+            <input type="datetime-local" ng-model="annonce.dateArriveePrevue" class="form-control" name="add"/>
+        <span class="help-block has-error" ng-if="annonce.datpr.$dirty">
+            <span ng-show="annonce.datpr.$error.required">L'adresse est obligatoire.</span>
+            <span ng-show="annonce.datpr.$error.maxlength">maximun 50.</span>
+          </span>
+          </div>
+
+
+          <div class="form-group" ng-class="{'has-error':annonce.prix.$invalid &&annonce.prix.$dirty}">
+            <label class="control-label">Prix : </label>
+            <input type="number" ng-model="annonce.prixParPersonne" class="form-control"/>
+        <span class="help-block has-error" ng-if="annonce.prix.$dirty">
+            <span ng-show="annonce.prix.$error.required">L'adresse est obligatoire.</span>
+            <span ng-show="annonce.prix.$error.maxlength">maximun 50.</span>
+          </span>
+          </div>
+
+
+          <div class="form-group" ng-class="{'has-error':annonce.nbr.$invalid &&annonce.nbr.$dirty}">
+            <label class="control-label">Nombre Places : </label>
+            <input type="number" ng-model="annonce.nbrePlace" class="form-control"/>
+        <span class="help-block has-error" ng-if="annonce.nbr.$dirty">
+            <span ng-show="annonce.nbr.$error.required">L'adresse est obligatoire.</span>
+            <span ng-show="annonce.nbr.$error.maxlength">maximun 50.</span>
+          </span>
+          </div>
+          <button class="btn btn-success btn-rounded" type="submit">Enregistrer</button>
+        </form>
+      </div>
+
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $('#myModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var id = button.data('id') // Extract info from data-* attributes
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    var idUser = button.data('donnee')
+    var modal = $(this)
+
+    document.getElementById("idU").value = idUser;
+
+  })
+</script>
+
+
+</body>
+</html>

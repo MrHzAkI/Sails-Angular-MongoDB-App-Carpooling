@@ -1,0 +1,103 @@
+
+
+<div class="container">
+
+
+
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <h1 style="font-size: 250%; color: #b9623e; font-family: cambria">Informations personnelles</h1>
+    </div>
+    <div class="panel-body">
+      <div class="row">
+        <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="../images/user.png" class="img-circle img-responsive"> </div>
+
+
+        <div class=" col-md-9 col-lg-9 ">
+          <table class="table table-user-information">
+            <tbody>
+            <br/>
+            <tr>
+              <td><h3 style="color: #0086B3; font-family: cambria">Nom et prénom:</h3></td>
+              <td><h3 style="color: #0086B3; font-family: cambria" id="Model2.name">{{Model2.name}}</h3></td>
+            </tr>
+            <tr>
+              <td><h3 style="color: #0086B3; font-family: cambria">Adresse email:</h3></td>
+              <td><h3 style="color: #0086B3; font-family: cambria" id="Model3.mail">{{Model3.mail}}</h3></td>
+            </tr>
+            <tr>
+              <td><h3 style="color: #0086B3; font-family: cambria">Numero de téléphone :</h3></td>
+              <td><h3 style="color: #0086B3; font-family: cambria" id="Model4.tel">{{Model4.tel}}</h3></td>
+            </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+                        <span class="pull-right">
+                             <button style="color: #0c180c" class="btn btn-success btn-rounded" data-toggle="modal" data-target="#myModal" data-nom="{{Model2.name}}"
+                                     data-email="{{Model3.mail}}" data-tel="{{Model4.tel}}" data-idh="{{Model.id}}"><i class="fa fa-edit">Modifier</i>
+                             </button>
+                        </span>
+    </div>
+
+  </div>
+
+
+
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-body">
+          <form ng-submit="modifyAccount(th)" id="account" class="form-account" name="account">
+
+          <div class="form-group"><input type="hidden" ng-model="th.id" class="form-control" id="idh" placeholder="Nom & prénom"/></div>
+            <label class="control-label">Nom & Prénom : </label>
+            <div class="form-group"><input type="text" ng-model="th.nomUser" class="form-control" id="nom" placeholder="Nom & prénom"/></div>
+            <label class="control-label">Email : </label>
+          <div class="form-group"><input type="text" ng-model="th.emailUser" class="form-control" id="email" placeholder="Adresse email"/></div>
+            <label class="control-label">Numéro téléphone : </label>
+          <div class="form-group"><input type="text" ng-model="th.telUser" class="form-control" id="tel" placeholder="Numero de téléphone"/></div>
+            <button class="btn btn-success btn-rounded" type="submit">Enregistrer</button>
+
+          </form>
+        </div>
+        <div class="modal-footer">
+
+          <button type="button" class="btn btn-danger btn-rounded" data-dismiss="modal">Fermer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <script type="text/javascript" >$('#myModal').on('show.bs.modal', function (event) {
+    var button = $(event.relatedTarget) // Button that triggered the modal
+    var id = button.data('id') // Extract info from data-* attributes
+    // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+    // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+    var idh = button.data('idh')
+    var nom = button.data('nom')
+    var email = button.data('email')
+    var tel = button.data('tel')
+
+    var modal = $(this)
+    modal.find('.modal-title').text('Modifier le client : ' + nom)
+    //document.getElementById("hid_id").value=id
+    document.getElementById("idh").value = idh;
+    document.getElementById("nom").value = nom;
+    document.getElementById("email").value = email;
+    document.getElementById("tel").value = tel;
+    //document.getElementById("addr").value=addr;
+
+
+  })</script>
+
+
+</div>
+
+
